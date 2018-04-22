@@ -15,9 +15,10 @@ class Command:
 
         ed.set_prop(PROP_CODETREE, False)
 
+        n = ed.get_line_count()
+
         tree_proc(self.h_tree, TREE_ITEM_DELETE, 0)
-        tree_proc(self.h_tree, TREE_ITEM_ADD, 0, index=-1, text='test MD1')
-        tree_proc(self.h_tree, TREE_ITEM_ADD, 0, index=-1, text='test MD2')
+        tree_proc(self.h_tree, TREE_ITEM_ADD, 0, index=-1, text='Test, lines: '+str(n))
 
     def on_change_slow(self, ed_self):
 
