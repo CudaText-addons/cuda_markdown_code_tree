@@ -21,7 +21,7 @@ def is_line_head(s):
 def markdown_find_headers(lines):
     '''
     Gets list of headers, each list item is tuple
-    (line_index, line_text, int_header_level_from_1)
+    (line_index, level_from_1, line_text_after#)
     '''
     
     res = []
@@ -43,6 +43,6 @@ def markdown_find_headers(lines):
         if tick: continue
         r = is_line_head(s)
         if r:
-            res += [(i, s, r)]
+            res += [(i, r, s[r:])]
     
     return res
