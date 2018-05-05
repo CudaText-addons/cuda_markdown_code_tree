@@ -1,25 +1,19 @@
 
-CHAR_TICK = '`' # this char, in any repeat count, means start/end of code block
-
-def is_line_ticks(s):
-    if not s.startswith(CHAR_TICK): return
+def _is_pre(s, CHAR):
+    if not s.startswith(CHAR): return
     r = 0
     for i in range(min(10, len(s))):
-        if s[i]==CHAR_TICK:
+        if s[i]==CHAR:
             r += 1
         else:
             break
     return r
          
+def is_line_ticks(s):
+    return _is_pre(s, '`')
+
 def is_line_head(s):
-    if not s.startswith('#'): return
-    r = 0
-    for i in range(min(10, len(s))):
-        if s[i]=='#':
-            r += 1
-        else:
-            break
-    return r
+    return _is_pre(s, '#')
         
 
 def markdown_find_headers(lines):
