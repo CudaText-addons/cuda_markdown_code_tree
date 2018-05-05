@@ -1,5 +1,6 @@
 import os
 from cudatext import *
+from .md_find_headers import *
 
 #
 # http://wiki.freepascal.org/CudaText_API#How_plugin_can_fill_Code_Tree.3F
@@ -10,6 +11,15 @@ class Command:
     def __init__(self):
 
         self.h_tree = app_proc(PROC_GET_CODETREE, '')
+        #self._test_md()
+
+    def _test_md(self):
+    
+        fn = os.path.join(os.path.dirname(__file__), 'test.md')
+        with open(fn) as f:
+            lines = f.read().splitlines()
+        print(markdown_find_headers(lines))
+        
 
     def update_tree(self):
 
