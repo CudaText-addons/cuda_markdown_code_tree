@@ -3,7 +3,7 @@ title=Markdown Code Tree
 desc=Supports Code Tree for Markdown lexer
 type=cudatext-plugin
 subdir=cuda_markdown_code_tree
-homepage=
+homepage=https://github.com/CudaText-addons/cuda_markdown_code_tree
 
 [item1]
 section=events
