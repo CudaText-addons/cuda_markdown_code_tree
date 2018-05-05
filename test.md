@@ -1,7 +1,7 @@
 ddd
 #H0
 dd
-```
+```js
 ##H1
 ddd
 ##H1b
@@ -13,7 +13,7 @@ ddd
 dd
 ##H1c
 d
-`
+`js
 ###H2a
 dd
 d
@@ -24,6 +24,6 @@ d
 ##H1d
 d
 d
-#H0c
+#####H0c
 d
 d

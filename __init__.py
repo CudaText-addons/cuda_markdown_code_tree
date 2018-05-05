@@ -11,7 +11,7 @@ class Command:
     def __init__(self):
 
         self.h_tree = app_proc(PROC_GET_CODETREE, '')
-        #self._test_md()
+        self._test_md()
 
     def _test_md(self):
     
