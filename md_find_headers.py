@@ -42,6 +42,6 @@ def markdown_find_headers(lines):
         if tick: continue
         r = is_line_head(s)
         if r:
-            res += [(i, r, s[r:])]
+            res += [(i, r, s[r:].strip() )]
     
     return res
