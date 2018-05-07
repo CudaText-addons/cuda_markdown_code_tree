@@ -1,4 +1,3 @@
-import os
 import cudatext as cu
 from .md_find_headers import gen_markdown_headers
 
@@ -11,21 +10,22 @@ class Command:
 
     def __init__(self):
         self.h_tree = cu.app_proc(cu.PROC_GET_CODETREE, '')
-        self._test_md()
-
-    def _test_md(self):
-
-        fn = os.path.join(os.path.dirname(__file__), 'test.md')
-        with open(fn) as f:
-            lines = f.read().splitlines()
-        for info in gen_markdown_headers(lines):
-            print(info)
 
     def update_tree(self):
         cu.ed.set_prop(cu.PROP_CODETREE, False)
-        n = cu.ed.get_line_count()
         cu.tree_proc(self.h_tree, cu.TREE_ITEM_DELETE, 0)
-        cu.tree_proc(self.h_tree, cu.TREE_ITEM_ADD, 0, index=-1, text='Test, lines: '+str(n))
+        lines = cu.ed.get_text_all().split("\n")
+        last_levels = {0: 0}
+        for line, line_number, level, header in gen_markdown_headers(lines):
+            for i in range(1, level + 2):
+                parent = last_levels.get(level - i)
+                if parent is None:
+                    continue
+                identity = cu.tree_proc(self.h_tree, cu.TREE_ITEM_ADD, parent, index=-1, text=header)
+                last_levels[level] = identity
+                box = (0, line_number, len(line), line_number)
+                cu.tree_proc(self.h_tree, cu.TREE_ITEM_SET_RANGE, identity, index=-1, text=box)
+                break
 
     def on_change_slow(self, ed_self):
         # lexer name is checked via .inf

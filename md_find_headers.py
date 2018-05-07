@@ -23,7 +23,6 @@ def gen_markdown_headers(lines):
     Generates markdown headers in format:
     line_number, header_level, header_text
     '''
-    res = []
     tick = False
     tick_r = 0
     for i, s in enumerate(lines):
@@ -42,5 +41,4 @@ def gen_markdown_headers(lines):
             continue
         r = is_line_head(s)
         if r:
-            yield i, r - 1, s[r:].strip()
-    return res
+            yield s, i, r, s[r:].strip()
