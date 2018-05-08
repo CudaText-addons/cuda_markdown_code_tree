@@ -22,7 +22,12 @@ class Command:
                 if parent is None:
                     continue
                 identity = cu.tree_proc(self.h_tree, cu.TREE_ITEM_ADD, parent, index=-1, text=header)
+
                 last_levels[level] = identity
+                for j in range(level+1, 10):
+                    if j in last_levels:
+                        del last_levels[j]
+                        
                 box = (0, line_number, len(line), line_number)
                 cu.tree_proc(self.h_tree, cu.TREE_ITEM_SET_RANGE, identity, index=-1, text=box)
                 break
