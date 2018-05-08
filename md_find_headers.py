@@ -1,4 +1,4 @@
-def _is_pre(s, ch):
+def _is_pre(s, ch, need_space):
     if not s.startswith(ch):
         return
     r = 0
@@ -7,15 +7,19 @@ def _is_pre(s, ch):
             r += 1
         else:
             break
-    return r
+    ok = True
+    if need_space:        
+        ok = r<len(s) and s[r]==' '
+    if ok:
+        return r
 
 
 def is_line_ticks(s):
-    return _is_pre(s, '`')
+    return _is_pre(s, '`', False)
 
 
 def is_line_head(s):
-    return _is_pre(s, '#')
+    return _is_pre(s, '#', True)
 
 
 def gen_markdown_headers(lines):
