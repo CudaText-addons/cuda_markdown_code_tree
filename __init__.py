@@ -17,13 +17,14 @@ class Command:
         lines = cu.ed.get_text_all().split("\n")
         last_levels = {0: 0}
         for line, line_number, level, header in gen_markdown_headers(lines):
-            for i in range(1, level + 2):
-                parent = last_levels.get(level - i)
+            for test_level in range(level-1, -1, -1):
+                parent = last_levels.get(test_level)
                 if parent is None:
                     continue
                 identity = cu.tree_proc(self.h_tree, cu.TREE_ITEM_ADD, parent, index=-1, text=header)
 
                 last_levels[level] = identity
+                # when adding level K, forget all levels >K
                 for j in range(level+1, 10):
                     if j in last_levels:
                         del last_levels[j]
