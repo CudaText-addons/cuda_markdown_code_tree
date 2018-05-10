@@ -16,7 +16,8 @@ class Command:
         cu.tree_proc(self.h_tree, cu.TREE_ITEM_DELETE, 0)
         lines = cu.ed.get_text_all().split("\n")
         last_levels = {0: 0}
-        for line, line_number, level, header in gen_markdown_headers(lines):
+        heads = gen_markdown_headers(lines)
+        for index, (line_number, level, header) in enumerate(heads):
             for test_level in range(level-1, -1, -1):
                 parent = last_levels.get(test_level)
                 if parent is None:
@@ -29,8 +30,15 @@ class Command:
                     if j in last_levels:
                         del last_levels[j]
                         
-                box = (0, line_number, len(line), line_number)
-                cu.tree_proc(self.h_tree, cu.TREE_ITEM_SET_RANGE, identity, index=-1, text=box)
+                if index == len(heads)-1:
+                    end_y = len(lines)-1
+                    end_x = len(cu.ed.get_text_line(end_y))
+                else:
+                    end_y = heads[index+1][0] # line_index of next header
+                    end_x = 0
+                    
+                rng = (0, line_number, end_x, end_y)
+                cu.tree_proc(self.h_tree, cu.TREE_ITEM_SET_RANGE, identity, index=-1, text=rng)
                 break
 
     def on_change_slow(self, ed_self):
