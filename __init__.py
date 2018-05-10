@@ -16,27 +16,22 @@ class Command:
         cu.tree_proc(self.h_tree, cu.TREE_ITEM_DELETE, 0)
         lines = cu.ed.get_text_all().split("\n")
         last_levels = {0: 0}
-        heads = gen_markdown_headers(lines)
+        heads = list(gen_markdown_headers(lines))
         for index, (line_number, level, header) in enumerate(heads):
-            for test_level in range(level-1, -1, -1):
+            for test_level in reversed(range(level)):
                 parent = last_levels.get(test_level)
                 if parent is None:
                     continue
                 identity = cu.tree_proc(self.h_tree, cu.TREE_ITEM_ADD, parent, index=-1, text=header)
-
+                # when adding level K, forget all levels > K
+                last_levels = {k: v for k, v in last_levels.items() if k <= level}
                 last_levels[level] = identity
-                # when adding level K, forget all levels >K
-                for j in range(level+1, 10):
-                    if j in last_levels:
-                        del last_levels[j]
-                        
-                if index == len(heads)-1:
-                    end_y = len(lines)-1
+                if index == len(heads) - 1:
+                    end_y = len(lines) - 1
                     end_x = len(cu.ed.get_text_line(end_y))
                 else:
-                    end_y = heads[index+1][0] # line_index of next header
+                    end_y = heads[index + 1][0]  # line_index of next header
                     end_x = 0
-                    
                 rng = (0, line_number, end_x, end_y)
                 cu.tree_proc(self.h_tree, cu.TREE_ITEM_SET_RANGE, identity, index=-1, text=rng)
                 break
