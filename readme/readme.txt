@@ -3,5 +3,5 @@ supports building Code Tree for Markdown lexer. standard Markdown lexer cannot m
 
 authors:
   Alexey T (CudaText)
-  Nikita Melentiev (@pohmelie at github)
+  Nikita Melentev (@pohmelie at github)
 license: MIT
