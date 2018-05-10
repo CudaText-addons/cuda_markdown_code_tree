@@ -4,7 +4,7 @@ import itertools
 def _is_pre(s, ch, need_space):
     if not s.startswith(ch):
         return
-    r = sum(1 for _ in itertools.takewhile(lambda c: ch == c, s))
+    r = len(list(itertools.takewhile(lambda c: ch == c, s)))
     if not need_space:
         return r
     if r < len(s) and s[r].isspace():
